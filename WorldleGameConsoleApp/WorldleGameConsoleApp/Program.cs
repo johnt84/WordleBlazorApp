@@ -25,16 +25,19 @@ while(keepPlaying)
         if (gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessAndInCorrectPosition.Count > 0)
         {
             Console.WriteLine($"\nThe following letters from your guess are in the same position as the selected wordle: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessAndInCorrectPosition)}");
+            Console.WriteLine($"\nThe following letter positions from your guess are in the same position as the selected wordle: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition)}");
         }
 
         if (gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessButNotInCorrectPosition.Count > 0)
         {
             Console.WriteLine($"\nThe following letters from your guess are in the selected wordle but not in the correct position: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessButNotInCorrectPosition)}");
+            Console.WriteLine($"\nThe following letter positions from your guess are in the selected wordle but not in the correct position: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition)}");
         }
 
         if (gameState.GuessResult.IncorrectGuessHints.LettersNotPresentInGuess.Count > 0)
         {
             Console.WriteLine($"\nThe following letters from your guess are not in the selected wordle: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LettersNotPresentInGuess)}");
+            Console.WriteLine($"\nThe following letter positions from your guess are not in the selected wordle: {string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess)}");
         }
     }
 

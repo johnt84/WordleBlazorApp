@@ -116,8 +116,11 @@ namespace WorldleGameEngine
         {
             var lettersPresentInGuess = guess.Intersect(wordle).ToList();
             var lettersNotPresentInGuess = guess.Except(wordle).ToList();
+
             var lettersPresentAndInCorrectPosition = new List<char>();
             var lettersPresentButNotInCorrectPosition = new List<char>();
+            var letterPositionsPresentAndInCorrectPosition = new List<int>();
+            var letterPositionsPresentButNotInCorrectPosition = new List<int>();
 
             if (lettersPresentInGuess.Count() > 0)
             {
@@ -129,11 +132,23 @@ namespace WorldleGameEngine
                     if (positionOfLetterInGuess == positionOfLetterInWordle)
                     {
                         lettersPresentAndInCorrectPosition.Add(letter);
+                        letterPositionsPresentAndInCorrectPosition.Add(positionOfLetterInGuess);
                     }
                     else
                     {
                         lettersPresentButNotInCorrectPosition.Add(letter);
+                        letterPositionsPresentButNotInCorrectPosition.Add(positionOfLetterInGuess);
                     }
+                }
+            }
+
+            var letterPositionsNotPresentInGuess = new List<int>();
+
+            if (lettersNotPresentInGuess.Count() > 0)
+            {
+                foreach (var letter in lettersNotPresentInGuess)
+                {
+                    letterPositionsNotPresentInGuess.Add(guess.IndexOf(letter));
                 }
             }
 
@@ -142,6 +157,9 @@ namespace WorldleGameEngine
                 LettersPresentInGuessAndInCorrectPosition = lettersPresentAndInCorrectPosition,
                 LettersPresentInGuessButNotInCorrectPosition = lettersPresentButNotInCorrectPosition,
                 LettersNotPresentInGuess = lettersNotPresentInGuess,
+                LetterPositionsPresentInGuessAndInCorrectPosition = letterPositionsPresentAndInCorrectPosition,
+                LetterPositionsPresentInGuessButNotInCorrectPosition = letterPositionsPresentButNotInCorrectPosition,
+                LetterPositionsNotPresentInGuess = letterPositionsNotPresentInGuess,
             };
         }
 
