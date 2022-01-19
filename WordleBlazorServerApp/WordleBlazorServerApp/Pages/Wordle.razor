@@ -46,6 +46,7 @@ Enter wordle: <br/>
     protected override void OnInitialized()
     {
         gameState = gameEngine.NewGame();
+        guess = string.Empty;
     }
 
     private void EnterGuess()
