@@ -3,7 +3,7 @@ using Shared;
 
 namespace WorldleGameEngine
 {
-    public class GameEngine
+    public class GameEngine : IGameEngine
     {
         private const int NUMBER_OF_ALLLOWED_GUESSES = 6;
         private int WORDLE_LENGTH = 5;

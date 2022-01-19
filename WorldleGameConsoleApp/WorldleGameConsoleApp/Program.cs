@@ -41,14 +41,7 @@ while(keepPlaying)
         }
     }
 
-    if (gameState.HasPlayerWonGame)
-    {
-        Console.WriteLine($"\n{gameState.GuessResult.ResultMessage}");
-    }
-    else
-    {
-        Console.WriteLine($"\n{gameState.GuessResult.ResultMessage}");
-    }
+    Console.WriteLine($"\n{gameState.GuessResult.ResultMessage}");
 
     string keepPlayingChoice = string.Empty;
 
