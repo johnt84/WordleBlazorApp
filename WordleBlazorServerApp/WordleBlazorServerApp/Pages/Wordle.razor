@@ -10,28 +10,32 @@
 Enter wordle: <br/>
 <input type="text" @bind-value="@guess" /> <br/> <br/>
 
-<button class="btn" type="button" @onclick="EnterGuess" >Enter</button><br /><br />
+<button class="btn" type="button" @onclick="EnterGuess">Enter</button><br /><br />
 
-@if (gameState != null)
+<button class="btn" type="button" @onclick="NewGame">New Game</button><br /><br />
+
+@if (gameState != null && gameState.GuessResult != null)
 {
-    @if (gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessButNotInCorrectPosition.Count > 0){
-        <span>LettersPresentInGuessButNotInCorrectPosition: </span>
-        <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LettersPresentInGuessButNotInCorrectPosition)</span><br /><br />
-    }
-
-    @if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition.Count > 0){
-        <span>LetterPositionsPresentInGuessAndInCorrectPosition: </span>
-        <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition)</span><br /><br />
-    }
-
-    @if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess.Count > 0){
-        <span>LetterPositionsNotPresentInGuess: </span>
-        <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess)</span><br /><br />
-    }
-
     @if(gameState.IsGameComplete)
     {
         <span>@gameState.GuessResult.ResultMessage</span>
+    }
+    else
+    {
+        @if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition.Count > 0){
+        <span>LetterPositionsPresentInGuessAndInCorrectPosition: </span>
+        <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition)</span><br /><br />
+        }
+
+        @if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition.Count > 0){
+            <span>LetterPositionsPresentInGuessButNotInCorrectPosition: </span>
+            <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition)</span><br /><br />
+        }
+
+        @if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess.Count > 0){
+            <span>LetterPositionsNotPresentInGuess: </span>
+            <span>@string.Join(" ", gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess)</span><br /><br />
+        }
     }
 }
 
@@ -39,7 +43,7 @@ Enter wordle: <br/>
     string guess;
     GameState gameState;
 
-    private void OnInitialized()
+    protected override void OnInitialized()
     {
         gameState = gameEngine.NewGame();
     }
@@ -47,7 +51,10 @@ Enter wordle: <br/>
     private void EnterGuess()
     {
         gameState = gameEngine.EnterGuess(guess);
+    }
 
-        
+    private void NewGame()
+    {
+        gameState = gameEngine.NewGame();
     }
 }

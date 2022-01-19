@@ -175,14 +175,33 @@ namespace WorldleGameEngine
 
         private List<string> GetPossibleWordles()
         {
-            IConfigurationRoot config = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName)
-                    .AddJsonFile("appSettings.json")
-                    .Build();
+            //IConfigurationRoot config = new ConfigurationBuilder()
+            //        .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName)
+            //        .AddJsonFile("appSettings.json")
+            //        .Build();
 
-            var possibleWordlesInput = config.
-                                        GetSection("PosssibleWordles")
-                                        .Get<List<string>>();
+            //var possibleWordlesInput = config.
+            //                            GetSection("PosssibleWordles")
+            //                            .Get<List<string>>();
+
+            var possibleWordlesInput = new List<string>()
+            {
+                "point",
+                "weary",
+                "bless",
+                "start",
+                "curry",
+                "pores",
+                "polar",
+                "never",
+                "newer",
+                "magic",
+                "farce",
+                "blank",
+                "force",
+                "watch",
+                "match"
+            };
 
             return possibleWordlesInput
                                     .GroupBy(x => x)
