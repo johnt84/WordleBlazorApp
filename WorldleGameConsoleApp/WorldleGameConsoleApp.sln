@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldleGameConsoleApp", "WorldleGameConsoleApp\WorldleGameConsoleApp.csproj", "{688ECEF5-86DC-4FB4-A1B3-74638F51BB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldleGameConsoleApp", "WorldleGameConsoleApp\WorldleGameConsoleApp.csproj", "{688ECEF5-86DC-4FB4-A1B3-74638F51BB45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldleGameEngine", "..\WorldleGameEngine\WorldleGameEngine.csproj", "{30A8E1A7-CFB4-4072-AA3F-8D53F867D61C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{22C253C8-2345-4C34-98CE-2B23A5BD69C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{688ECEF5-86DC-4FB4-A1B3-74638F51BB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{688ECEF5-86DC-4FB4-A1B3-74638F51BB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{688ECEF5-86DC-4FB4-A1B3-74638F51BB45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A8E1A7-CFB4-4072-AA3F-8D53F867D61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A8E1A7-CFB4-4072-AA3F-8D53F867D61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A8E1A7-CFB4-4072-AA3F-8D53F867D61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A8E1A7-CFB4-4072-AA3F-8D53F867D61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C253C8-2345-4C34-98CE-2B23A5BD69C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C253C8-2345-4C34-98CE-2B23A5BD69C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C253C8-2345-4C34-98CE-2B23A5BD69C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C253C8-2345-4C34-98CE-2B23A5BD69C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
