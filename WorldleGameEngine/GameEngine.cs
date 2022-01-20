@@ -114,42 +114,37 @@ namespace WorldleGameEngine
 
         private IncorrectGuessHints GetIncorrectGuessHints(string guess, string worldle)
         {
-            var lettersPresentInGuess = guess.Intersect(wordle).ToList();
-            var lettersNotPresentInGuess = guess.Except(wordle).ToList();
-
             var lettersPresentAndInCorrectPosition = new List<char>();
             var lettersPresentButNotInCorrectPosition = new List<char>();
+            var lettersNotPresentInGuess = new List<char>();
             var letterPositionsPresentAndInCorrectPosition = new List<int>();
             var letterPositionsPresentButNotInCorrectPosition = new List<int>();
-
-            if (lettersPresentInGuess.Count() > 0)
-            {
-                foreach (var letter in lettersPresentInGuess)
-                {
-                    int positionOfLetterInGuess = guess.IndexOf(letter);
-                    int positionOfLetterInWordle = wordle.IndexOf(letter);
-
-                    if (positionOfLetterInGuess == positionOfLetterInWordle)
-                    {
-                        lettersPresentAndInCorrectPosition.Add(letter);
-                        letterPositionsPresentAndInCorrectPosition.Add(positionOfLetterInGuess);
-                    }
-                    else
-                    {
-                        lettersPresentButNotInCorrectPosition.Add(letter);
-                        letterPositionsPresentButNotInCorrectPosition.Add(positionOfLetterInGuess);
-                    }
-                }
-            }
-
             var letterPositionsNotPresentInGuess = new List<int>();
 
-            if (lettersNotPresentInGuess.Count() > 0)
+            int letterIndex = 0;
+
+            foreach (var letter in guess)
             {
-                foreach (var letter in lettersNotPresentInGuess)
+                bool letterPresentInWordle = wordle.Contains(letter);
+                bool letterPresentInWordleAndInCorrectPosition = guess[letterIndex].Equals(wordle[letterIndex]);
+
+                if (letterPresentInWordleAndInCorrectPosition)
                 {
-                    letterPositionsNotPresentInGuess.Add(guess.IndexOf(letter));
+                    lettersPresentAndInCorrectPosition.Add(letter);
+                    letterPositionsPresentAndInCorrectPosition.Add(letterIndex);
                 }
+                else if (letterPresentInWordle)
+                {
+                    lettersPresentButNotInCorrectPosition.Add(letter);
+                    letterPositionsPresentButNotInCorrectPosition.Add(letterIndex);
+                }
+                else
+                {
+                    lettersNotPresentInGuess.Add(letter);
+                    letterPositionsNotPresentInGuess.Add(letterIndex);
+                }
+
+                letterIndex++;
             }
 
             return new IncorrectGuessHints()
