@@ -5,11 +5,11 @@ namespace WorldleGameEngine
 {
     public class GameEngine : IGameEngine
     {
-        private const int NUMBER_OF_ALLLOWED_GUESSES = 6;
-        private int WORDLE_LENGTH = 5;
+        public const int NUMBER_OF_ALLLOWED_GUESSES = 6;
+        public const int WORDLE_LENGTH = 5;
+        private int numberOfGuesses = 0;
 
         private string wordle = string.Empty;
-        private int numberOfGuesses = 0;
 
         public GameState NewGame()
         {
@@ -156,6 +156,11 @@ namespace WorldleGameEngine
                 LetterPositionsPresentInGuessButNotInCorrectPosition = letterPositionsPresentButNotInCorrectPosition,
                 LetterPositionsNotPresentInGuess = letterPositionsNotPresentInGuess,
             };
+        }
+
+        public int GetNumberOfGuesses()
+        {
+            return numberOfGuesses;
         }
 
         private void GetSelectedWordle()

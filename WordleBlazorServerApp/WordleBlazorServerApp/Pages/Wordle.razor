@@ -8,9 +8,35 @@
 <h3>Wordle</h3>
 
 Enter wordle: <br/>
-<input type="text" @bind-value="@guess" /> <br/> <br/>
 
-<button class="btn" type="button" @onclick="EnterGuess">Enter</button><br /><br />
+<table>
+    @for(int guessIndex = 0; guessIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES; guessIndex++)
+    {
+        <tr>
+            @for(int letterIndex = 0; letterIndex < GameEngine.WORDLE_LENGTH; letterIndex++)
+            {
+                int x = guessIndex;
+                int y = letterIndex;
+
+                <td style="width: 5px;">
+                    @if(guessIndex == gameEngine.GetNumberOfGuesses())
+                    {
+                        <input type="text" @bind-value="@guess[x, y]" />
+                    }
+                    else
+                    {
+                        <input type="text" disabled @bind-value="@guess[guessIndex, letterIndex]" />
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+@if(!gameState.IsGameComplete)
+{
+    <button class="btn" type="button" @onclick="EnterGuess">Enter</button><br /><br />
+}
 
 <button class="btn" type="button" @onclick="NewGame">New Game</button><br /><br />
 
@@ -47,7 +73,7 @@ Enter wordle: <br/>
 }
 
 @code {
-    string guess;
+    char[,] guess = new char[GameEngine.NUMBER_OF_ALLLOWED_GUESSES, GameEngine.WORDLE_LENGTH];
     GameState gameState;
 
     protected override void OnInitialized()
@@ -57,12 +83,26 @@ Enter wordle: <br/>
 
     private void EnterGuess()
     {
-        gameState = gameEngine.EnterGuess(guess);
+        string currentGuess = string.Empty;
+
+        for(int colIndex=0; colIndex < GameEngine.WORDLE_LENGTH;  colIndex++)
+        {
+            currentGuess += guess[gameEngine.GetNumberOfGuesses(), colIndex];
+        }
+
+        gameState = gameEngine.EnterGuess(currentGuess);
     }
 
     private void NewGame()
     {
         gameState = gameEngine.NewGame();
-        guess = string.Empty;
+
+        for(int rowIndex=0; rowIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES;  rowIndex++)
+        {
+            for(int colIndex=0; colIndex < GameEngine.WORDLE_LENGTH; colIndex++)
+            {
+                guess[rowIndex, colIndex] = (char) 0;
+            }
+        }
     }
 }

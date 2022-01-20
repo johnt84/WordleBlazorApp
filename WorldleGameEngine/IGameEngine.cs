@@ -8,5 +8,6 @@ namespace WorldleGameEngine
         GameState PlayerWonGame();
         GameState GameOver();
         GameState EnterGuess(string guess);
+        int GetNumberOfGuesses();
     }
 }
