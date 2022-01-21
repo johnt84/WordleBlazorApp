@@ -27,6 +27,14 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script>
+    function BlazorFocusElement(element) {
+        if (element instanceof HTMLElement) {
+            element.focus();
+        }
+    }
+</script>
+
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
