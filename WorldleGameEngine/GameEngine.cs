@@ -71,7 +71,7 @@ namespace WorldleGameEngine
             {
                 if (numberOfGuesses == NUMBER_OF_ALLLOWED_GUESSES)
                 {
-                    return GameOver();
+                    return GameOver(guess);
                 }
                 else
                 {
@@ -122,7 +122,7 @@ namespace WorldleGameEngine
             };
         }
 
-        private GameState GameOver()
+        private GameState GameOver(string guess)
         {
             return new GameState()
             {
@@ -132,7 +132,7 @@ namespace WorldleGameEngine
                 GuessResult = new GuessResult()
                 {
                     IsGuessSuccessful = false,
-                    IncorrectGuessHints = null,
+                    IncorrectGuessHints = GetIncorrectGuessHints(guess, wordle),
                     ResultMessage = $"Unlucky you didn't guess the selected wordle {wordle}",
                 },
             };
