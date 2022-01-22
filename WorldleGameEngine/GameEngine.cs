@@ -60,10 +60,12 @@ namespace WorldleGameEngine
 
             string guessResult = string.Empty;
             IncorrectGuessHints? incorrectGuessHints = null;
+            
+            string guessInLowerCase = guess.ToLower();
 
             numberOfGuesses++;
 
-            if (guess.ToLower().Equals(wordle))
+            if (guessInLowerCase.Equals(wordle))
             {
                 return PlayerWonGame(guess);
             }
@@ -71,11 +73,11 @@ namespace WorldleGameEngine
             {
                 if (numberOfGuesses == NUMBER_OF_ALLLOWED_GUESSES)
                 {
-                    return GameOver(guess);
+                    return GameOver(guessInLowerCase);
                 }
                 else
                 {
-                    incorrectGuessHints = GetIncorrectGuessHints(guess, wordle);
+                    incorrectGuessHints = GetIncorrectGuessHints(guessInLowerCase, wordle);
                 }
             }
 
@@ -149,7 +151,7 @@ namespace WorldleGameEngine
 
             int letterIndex = 0;
 
-            foreach (var letter in guess.ToLower())
+            foreach (var letter in guess)
             {
                 bool letterPresentInWordle = wordle.Contains(letter);
                 bool letterPresentInWordleAndInCorrectPosition = guess[letterIndex].Equals(wordle[letterIndex]);
