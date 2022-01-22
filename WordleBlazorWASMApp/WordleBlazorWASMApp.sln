@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleBlazorWASMApp", "WordleBlazorWASMApp\WordleBlazorWASMApp.csproj", "{4BF32737-12AC-4FD4-B870-500C740192A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordleBlazorWASMApp", "WordleBlazorWASMApp\WordleBlazorWASMApp.csproj", "{4BF32737-12AC-4FD4-B870-500C740192A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldleGameEngine", "..\WorldleGameEngine\WorldleGameEngine.csproj", "{B9A77D4D-405E-431B-B0DF-22E1DEACFD15}"
 EndProject
