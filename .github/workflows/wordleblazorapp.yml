@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - main
+    paths:
+    - 'WordleBlazorServerApp/**'
 env:
   AZURE_WEBAPP_NAME: wordleblazorapp
   AZURE_WEBAPP_PACKAGE_PATH: WordleBlazorServerApp/publish
