@@ -1,0 +1,150 @@
+﻿@page "/wordle"
+
+@using WorldleGameEngine
+@using global::Shared
+
+@inject IGameEngine gameEngine;
+@inject IJSRuntime JSRuntime
+
+<h3>Play Wordle</h3>
+
+<table style="margin-top: 30px; margin-bottom: 20px;">
+    @for(int guessIndex = 0; guessIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES; guessIndex++)
+    {
+        <tr>
+            @for(int letterIndex = 0; letterIndex < GameEngine.WORDLE_LENGTH; letterIndex++)
+            {
+                int rowIndex = guessIndex;
+                int colIndex = letterIndex;
+
+                <td>
+                    @if(!IsGameComplete && guessIndex == gameEngine.GetNumberOfGuesses())
+                    {
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@guesses[rowIndex, colIndex]" @ref="guessReferences[rowIndex, colIndex]" MaxLength="1" type="text"  style="width: 70px; text-align: center; font-weight: bold; @GetPlayerColour(rowIndex, colIndex)"  />
+                    }
+                    else
+                    {
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@guesses[rowIndex, colIndex]" @ref="guessReferences[rowIndex, colIndex]" MaxLength="1" type="text" disabled style="width: 70px; text-align: center; font-weight: bold; @GetPlayerColour(rowIndex, colIndex)" /> 
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+<table style="margin-left:20px; margin-bottom: 20px;">
+    <tr>
+        <td style="padding-right: 25px;">
+            @if(!IsGameComplete)
+            {
+                <button class="btn" type="button" @onclick="EnterGuess">Enter</button>
+            }
+            else
+            {
+                <button disabled class="btn" type="button" @onclick="EnterGuess">Enter</button>
+            }
+        </td>
+        <td>
+            <button class="btn" type="button" @onclick="NewGame">New Game</button>
+        </td>
+    </tr>
+</table>
+
+
+
+
+@if (gameState != null && gameState.GuessResult != null)
+{
+    <span>@gameState.GuessResult.ResultMessage</span>
+}
+
+@code {
+    string[,] guesses = new string[GameEngine.NUMBER_OF_ALLLOWED_GUESSES, GameEngine.WORDLE_LENGTH];
+    string[,] guessHintColour = new string[GameEngine.NUMBER_OF_ALLLOWED_GUESSES, GameEngine.WORDLE_LENGTH];
+    ElementReference[,] guessReferences = new ElementReference[GameEngine.NUMBER_OF_ALLLOWED_GUESSES, GameEngine.WORDLE_LENGTH];
+    GameState gameState = new GameState();
+
+    private string GetPlayerColour(int rowIndex, int colIndex) => guessHintColour[rowIndex, colIndex];
+    private bool IsGameComplete => gameState != null && gameState.IsGameComplete;
+    private string GetTextBoxID(int rowIndex, int colIndex) => $"{rowIndex},{colIndex}";
+    private string GetGuessLetter(int rowIndex, int colIndex) => guesses[rowIndex, colIndex];
+
+    protected override void OnInitialized()
+    {
+        gameState = gameEngine.NewGame();
+        NewGame();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //// Focus the element
+            await JSRuntime.FocusAsync(guessReferences[0, 0]);
+        }
+    }
+
+    ////private void OnTextInput(KeyboardEventArgs args, rowIndex)
+    ////{
+    ////    string keyPressed = "Key Pressed is " + args.Key;
+    ////    string eventInfo = "Event Type " + args.Type; }
+
+    //private async Task OnTextInput(int rowIndex, int colIndex)
+    //{
+    //    await guessReferences[rowIndex, colIndex].FocusAsync();
+    //}
+
+    private void EnterGuess()
+    {
+        string currentGuess = string.Empty;
+
+        for(int colIndex=0; colIndex < GameEngine.WORDLE_LENGTH;  colIndex++)
+        {
+            currentGuess += guesses[gameEngine.GetNumberOfGuesses(), colIndex];
+        }
+
+        gameState = gameEngine.EnterGuess(currentGuess);
+
+        if(gameState.GuessResult.IncorrectGuessHints != null)
+        {
+            if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition.Count > 0)
+            {
+                foreach(int letterPosition in gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition)
+                {
+                    guessHintColour[gameEngine.GetNumberOfGuesses() - 1, letterPosition] = "background-color: #0080009c;"; //green
+                }
+            }
+
+            if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition.Count > 0)
+            {
+                foreach(int letterPosition in gameState.GuessResult.IncorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition)
+                {
+                    guessHintColour[gameEngine.GetNumberOfGuesses() - 1, letterPosition] = "background-color: yellow;";
+                }
+            }
+
+            if (gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess.Count > 0)
+            {
+                foreach(int letterPosition in gameState.GuessResult.IncorrectGuessHints.LetterPositionsNotPresentInGuess)
+                {
+                    guessHintColour[gameEngine.GetNumberOfGuesses() - 1, letterPosition] = "background-color: #80808078;"; //light grey
+                }
+            }
+        }
+    }
+
+    private void NewGame()
+    {
+        gameState = gameEngine.NewGame();
+
+        for(int rowIndex=0; rowIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES;  rowIndex++)
+        {
+            for(int colIndex=0; colIndex < GameEngine.WORDLE_LENGTH; colIndex++)
+            {
+                guesses[rowIndex, colIndex] = string.Empty;
+                guessHintColour[rowIndex, colIndex] = "background-color: white;";
+                guessReferences[rowIndex, colIndex] = new ElementReference();
+            }
+        }
+    }
+}
