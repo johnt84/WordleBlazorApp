@@ -149,7 +149,7 @@ namespace WorldleGameEngine
 
             int letterIndex = 0;
 
-            foreach (var letter in guess)
+            foreach (var letter in guess.ToLower())
             {
                 bool letterPresentInWordle = wordle.Contains(letter);
                 bool letterPresentInWordleAndInCorrectPosition = guess[letterIndex].Equals(wordle[letterIndex]);
