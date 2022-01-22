@@ -67,7 +67,7 @@ namespace WorldleGameEngine
 
             if (guessInLowerCase.Equals(wordle))
             {
-                return PlayerWonGame(guess);
+                return PlayerWonGame(guessInLowerCase);
             }
             else
             {
@@ -228,7 +228,27 @@ namespace WorldleGameEngine
                 "blank",
                 "force",
                 "watch",
-                "match"
+                "match",
+                "fuzzy",
+                "agent",
+                "prick",
+                "chair",
+                "child",
+                "adult",
+                "cycle",
+                "fight",
+                "issue",
+                "knife",
+                "money",
+                "model",
+                "motor",
+                "pilot",
+                "pound",
+                "shape",
+                "total",
+                "white",
+                "woman",
+                "youth"
             };
 
             return possibleWordlesInput
