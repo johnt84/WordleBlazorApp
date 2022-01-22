@@ -5,6 +5,8 @@ on:
     - main
     paths:
     - 'WordleBlazorWASMApp/**'
+    - 'WorldleGameEngine/**'
+    - 'Shared/**'
 env:
   AZURE_WEBAPP_NAME: wordleblazorapp
   AZURE_WEBAPP_PACKAGE_PATH: WordleBlazorWASMApp/publish
