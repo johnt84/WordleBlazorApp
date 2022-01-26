@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Shared;
+using WordleBlazorServerApp.Shared;
 
 namespace WorldleGameEngine
 {
@@ -8,8 +8,12 @@ namespace WorldleGameEngine
         public const int NUMBER_OF_ALLLOWED_GUESSES = 6;
         public const int WORDLE_LENGTH = 5;
         private int numberOfGuesses = 0;
+        private GameGrid gameGrid;
 
         private string wordle = string.Empty;
+
+        public int GetNumberOfGuesses() => numberOfGuesses;
+        public GameGrid GetGameGrid() => gameGrid;
 
         public GameState NewGame()
         {
@@ -17,11 +21,18 @@ namespace WorldleGameEngine
 
             numberOfGuesses = 0;
 
+            gameGrid = new GameGrid()
+            {
+                Guesses = new string[NUMBER_OF_ALLLOWED_GUESSES, WORDLE_LENGTH],
+                IncorrectGuessHintColours = new string[NUMBER_OF_ALLLOWED_GUESSES, WORDLE_LENGTH],
+            };
+
             return new GameState()
             {
                 IsGameComplete = false,
                 HasPlayerWonGame = false,
                 NumberOfGuesses = numberOfGuesses,
+
             };
         }
 
@@ -31,11 +42,11 @@ namespace WorldleGameEngine
             {
                 string errorMessage = string.Empty;
 
-                if(string.IsNullOrEmpty(guess))
+                if (string.IsNullOrEmpty(guess))
                 {
                     errorMessage = "No guess entered";
                 }
-                else if(guess.Length != WORDLE_LENGTH)
+                else if (guess.Length != WORDLE_LENGTH)
                 {
                     errorMessage = $"The guess entered has not got enough letters.  Guess should have {WORDLE_LENGTH} letters";
                 }
@@ -43,7 +54,7 @@ namespace WorldleGameEngine
                 {
                     errorMessage = "The guess entered is invalid as it contains numbers";
                 }
-                
+
                 return new GameState()
                 {
                     IsGameComplete = false,
@@ -60,7 +71,7 @@ namespace WorldleGameEngine
 
             string guessResult = string.Empty;
             IncorrectGuessHints? incorrectGuessHints = null;
-            
+
             string guessInLowerCase = guess.ToLower();
 
             numberOfGuesses++;
@@ -77,7 +88,7 @@ namespace WorldleGameEngine
                 }
                 else
                 {
-                    incorrectGuessHints = GetIncorrectGuessHints(guessInLowerCase, wordle);
+                    incorrectGuessHints = ManageIncorrectGuessHints(guessInLowerCase, wordle);
                 }
             }
 
@@ -101,7 +112,7 @@ namespace WorldleGameEngine
 
             var positionsInGuess = new List<int>();
 
-            for(int i = 0; i < WORDLE_LENGTH; i++)
+            for (int i = 0; i < WORDLE_LENGTH; i++)
             {
                 positionsInGuess.Add(i);
             }
@@ -134,10 +145,18 @@ namespace WorldleGameEngine
                 GuessResult = new GuessResult()
                 {
                     IsGuessSuccessful = false,
-                    IncorrectGuessHints = GetIncorrectGuessHints(guess, wordle),
+                    IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
                     ResultMessage = $"Unlucky you didn't guess the selected wordle {wordle}",
                 },
             };
+        }
+
+        private IncorrectGuessHints ManageIncorrectGuessHints(string guess, string worldle)
+        {
+            var incorrectGuessHints = GetIncorrectGuessHints(guess, wordle);
+            ApplyIncorrectGuessHints(incorrectGuessHints);
+
+            return incorrectGuessHints;
         }
 
         private IncorrectGuessHints GetIncorrectGuessHints(string guess, string worldle)
@@ -184,11 +203,6 @@ namespace WorldleGameEngine
                 LetterPositionsPresentInGuessButNotInCorrectPosition = letterPositionsPresentButNotInCorrectPosition,
                 LetterPositionsNotPresentInGuess = letterPositionsNotPresentInGuess,
             };
-        }
-
-        public int GetNumberOfGuesses()
-        {
-            return numberOfGuesses;
         }
 
         private void GetSelectedWordle()
@@ -257,6 +271,40 @@ namespace WorldleGameEngine
                                     .ToList()
                                     .OrderBy(x => x)
                                     .ToList();
+        }
+
+        private void ApplyIncorrectGuessHints( IncorrectGuessHints incorrectGuessHints)
+        {
+            if (incorrectGuessHints != null)
+            {
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                    gameGrid.IncorrectGuessHintColours
+                                                    , incorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition
+                                                    , "background-color: #0080009c;");
+
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                        gameGrid.IncorrectGuessHintColours
+                                                        , incorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition
+                                                        , "background-color: yellow;");
+
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                        gameGrid.IncorrectGuessHintColours
+                                                        , incorrectGuessHints.LetterPositionsNotPresentInGuess
+                                                        , "background-color: #80808078;");
+            }
+        }
+
+        private string[,] ApplyIncorrectGuessHintColours(string[,] incorrectGuessHintColours, List<int> letterPositions, string backgroundColour)
+        {
+            if (letterPositions.Count > 0)
+            {
+                foreach (int letterPosition in letterPositions)
+                {
+                    incorrectGuessHintColours[GetNumberOfGuesses() - 1, letterPosition] = backgroundColour;
+                }
+            }
+
+            return incorrectGuessHintColours;
         }
     }
 }
