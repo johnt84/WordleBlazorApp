@@ -47,33 +47,7 @@ namespace WorldleGameEngine
         {
             if (string.IsNullOrEmpty(guess) || guess.Length != WORDLE_LENGTH || guess.Any(char.IsDigit))
             {
-                string errorMessage = string.Empty;
-
-                if (string.IsNullOrEmpty(guess))
-                {
-                    errorMessage = "No guess entered";
-                }
-                else if (guess.Length != WORDLE_LENGTH)
-                {
-                    errorMessage = $"The guess entered has not got enough letters.  Guess should have {WORDLE_LENGTH} letters";
-                }
-                else
-                {
-                    errorMessage = "The guess entered is invalid as it contains numbers";
-                }
-
-                return new GameState()
-                {
-                    IsGameComplete = false,
-                    HasPlayerWonGame = false,
-                    NumberOfGuesses = numberOfGuesses,
-                    GuessResult = new GuessResult()
-                    {
-                        IsGuessSuccessful = false,
-                        IncorrectGuessHints = null,
-                        ResultMessage = errorMessage,
-                    },
-                };
+                return GetInvalidGuessEntry(guess);
             }
 
             string guessResult = string.Empty;
@@ -269,6 +243,38 @@ namespace WorldleGameEngine
             }
 
             return incorrectGuessHintColours;
+        }
+
+        private GameState GetInvalidGuessEntry(string guess)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrEmpty(guess))
+            {
+                errors.Add("No guess entered");
+            }
+            else if (guess.Length != WORDLE_LENGTH)
+            {
+                errors.Add($"The guess entered has not got enough letters.  Guess should have {WORDLE_LENGTH} letters");
+            }
+
+            if(guess.Any(char.IsDigit))
+            {
+                errors.Add("The guess entered is invalid as it contains numbers");
+            }
+
+            return new GameState()
+            {
+                IsGameComplete = false,
+                HasPlayerWonGame = false,
+                NumberOfGuesses = numberOfGuesses,
+                GuessResult = new GuessResult()
+                {
+                    IsGuessSuccessful = false,
+                    IncorrectGuessHints = null,
+                    ErrorMessages = errors,
+                },
+            };
         }
     }
 }

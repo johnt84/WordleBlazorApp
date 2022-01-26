@@ -87,3 +87,8 @@ a, .btn-link {
 .game_result_message {
     font-size: 20px;
 }
+
+.error_messages {
+    color: red;
+    font-size: 19px;
+}

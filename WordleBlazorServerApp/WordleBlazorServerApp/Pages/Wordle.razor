@@ -51,9 +51,13 @@
     <span class="game_result_message">@gameState.GuessResult.ResultMessage</span>
 }
 
+<ErrorMessage ErrorMessages="errorMessages" />
+
 @code {
-    GameState gameState = new GameState();
-    GameGrid gameGrid;
+    private GameState gameState = new GameState();
+    private GameGrid gameGrid = new GameGrid();
+
+    private List<string> errorMessages;
 
     private string GetPlayerColour(int rowIndex, int colIndex) => gameGrid.IncorrectGuessHintColours[rowIndex, colIndex];
     private bool IsGameComplete => gameState != null && gameState.IsGameComplete;
@@ -62,7 +66,6 @@
 
     protected override void OnInitialized()
     {
-        gameState = gameEngine.NewGame();
         NewGame();
     }
 
@@ -77,7 +80,9 @@
 
         gameState = gameEngine.EnterGuess(currentGuess);
 
-         gameGrid = gameEngine.GetGameGrid();
+        errorMessages = gameState?.GuessResult?.ErrorMessages;
+
+        gameGrid = gameEngine.GetGameGrid();
     }
 
     private void NewGame()
