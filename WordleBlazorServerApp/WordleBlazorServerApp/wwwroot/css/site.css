@@ -62,3 +62,28 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.game-grid {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.guess_letter_entry {
+    width: 70px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.game-results {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.enter_guess_column {
+    padding-right: 25px;
+}
+
+.game_result_message {
+    font-size: 20px;
+}

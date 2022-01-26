@@ -8,12 +8,19 @@ namespace WorldleGameEngine
         public const int NUMBER_OF_ALLLOWED_GUESSES = 6;
         public const int WORDLE_LENGTH = 5;
         private int numberOfGuesses = 0;
-        private GameGrid gameGrid;
+        private GameGrid gameGrid = new GameGrid();
 
         private string wordle = string.Empty;
 
+        private readonly List<string> _possibleWordles;
+
         public int GetNumberOfGuesses() => numberOfGuesses;
         public GameGrid GetGameGrid() => gameGrid;
+
+        public GameEngine(List<string> possibleWordles)
+        {
+            _possibleWordles = possibleWordles;
+        }
 
         public GameState NewGame()
         {
@@ -110,11 +117,11 @@ namespace WorldleGameEngine
         {
             string es = numberOfGuesses > 1 ? "es" : string.Empty;
 
-            var positionsInGuess = new List<int>();
+            var letterPositionsInGuess = new List<int>();
 
             for (int i = 0; i < WORDLE_LENGTH; i++)
             {
-                positionsInGuess.Add(i);
+                letterPositionsInGuess.Add(i);
             }
 
             return new GameState()
@@ -124,12 +131,8 @@ namespace WorldleGameEngine
                 NumberOfGuesses = numberOfGuesses,
                 GuessResult = new GuessResult()
                 {
-                    IsGuessSuccessful = false,
-                    IncorrectGuessHints = new IncorrectGuessHints()
-                    {
-                        LettersPresentInGuessAndInCorrectPosition = guess.ToCharArray().ToList(),
-                        LetterPositionsPresentInGuessAndInCorrectPosition = positionsInGuess,
-                    },
+                    IsGuessSuccessful = true,
+                    IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
                     ResultMessage = $"Congratulations you correctly guessed the selected wordle { wordle } in { numberOfGuesses} guess{ es}",
                 },
             };
@@ -226,51 +229,12 @@ namespace WorldleGameEngine
             //                            GetSection("PosssibleWordles")
             //                            .Get<List<string>>();
 
-            var possibleWordlesInput = new List<string>()
-            {
-                "point",
-                "weary",
-                "bless",
-                "start",
-                "curry",
-                "pores",
-                "polar",
-                "never",
-                "newer",
-                "magic",
-                "farce",
-                "blank",
-                "force",
-                "watch",
-                "match",
-                "fuzzy",
-                "agent",
-                "prick",
-                "chair",
-                "child",
-                "adult",
-                "cycle",
-                "fight",
-                "issue",
-                "knife",
-                "money",
-                "model",
-                "motor",
-                "pilot",
-                "pound",
-                "shape",
-                "total",
-                "white",
-                "woman",
-                "youth"
-            };
-
-            return possibleWordlesInput
-                                    .GroupBy(x => x)
-                                    .Select(x => x.Key)
-                                    .ToList()
-                                    .OrderBy(x => x)
-                                    .ToList();
+            return _possibleWordles
+                        .GroupBy(x => x)
+                        .Select(x => x.Key)
+                        .ToList()
+                        .OrderBy(x => x)
+                        .ToList();
         }
 
         private void ApplyIncorrectGuessHints( IncorrectGuessHints incorrectGuessHints)

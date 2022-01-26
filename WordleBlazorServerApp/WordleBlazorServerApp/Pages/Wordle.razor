@@ -4,7 +4,7 @@
 
 <h3>Play Wordle</h3>
 
-<table style="margin-top: 30px; margin-bottom: 20px;">
+<table class="game-grid">
     @for(int guessIndex = 0; guessIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES; guessIndex++)
     {
         <tr>
@@ -16,11 +16,11 @@
                 <td>
                     @if(!IsGameComplete && guessIndex == gameEngine.GetNumberOfGuesses())
                     {
-                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text"  style="width: 70px; text-align: center; font-weight: bold; @GetPlayerColour(rowIndex, colIndex)"  />
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text" class="guess_letter_entry" style="@GetPlayerColour(rowIndex, colIndex)"  />
                     }
                     else
                     {
-                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text" disabled style="width: 70px; text-align: center; font-weight: bold; @GetPlayerColour(rowIndex, colIndex)" /> 
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text" disabled class="guess_letter_entry" style="@GetPlayerColour(rowIndex, colIndex)" /> 
                     }
                 </td>
             }
@@ -28,9 +28,9 @@
     }
 </table>
 
-<table style="margin-left:20px; margin-bottom: 20px;">
+<table class="game-results">
     <tr>
-        <td style="padding-right: 25px;">
+        <td class="enter_guess_column">
             @if(!IsGameComplete)
             {
                 <button class="btn" type="button" @onclick="EnterGuess">Enter</button>
@@ -48,7 +48,7 @@
 
 @if (gameState != null && gameState.GuessResult != null)
 {
-    <span style="font-size: 20px;">@gameState.GuessResult.ResultMessage</span>
+    <span class="game_result_message">@gameState.GuessResult.ResultMessage</span>
 }
 
 @code {
