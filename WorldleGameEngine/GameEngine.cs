@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Shared;
+﻿using WordleBlazorApp.Shared;
 
 namespace WorldleGameEngine
 {
@@ -8,8 +7,19 @@ namespace WorldleGameEngine
         public const int NUMBER_OF_ALLLOWED_GUESSES = 6;
         public const int WORDLE_LENGTH = 5;
         private int numberOfGuesses = 0;
+        private GameGrid gameGrid = new GameGrid();
 
         private string wordle = string.Empty;
+
+        private readonly List<string> _possibleWordles;
+
+        public int GetNumberOfGuesses() => numberOfGuesses;
+        public GameGrid GetGameGrid() => gameGrid;
+
+        public GameEngine(List<string> possibleWordles)
+        {
+            _possibleWordles = possibleWordles;
+        }
 
         public GameState NewGame()
         {
@@ -17,11 +27,18 @@ namespace WorldleGameEngine
 
             numberOfGuesses = 0;
 
+            gameGrid = new GameGrid()
+            {
+                Guesses = new string[NUMBER_OF_ALLLOWED_GUESSES, WORDLE_LENGTH],
+                IncorrectGuessHintColours = new string[NUMBER_OF_ALLLOWED_GUESSES, WORDLE_LENGTH],
+            };
+
             return new GameState()
             {
                 IsGameComplete = false,
                 HasPlayerWonGame = false,
                 NumberOfGuesses = numberOfGuesses,
+
             };
         }
 
@@ -29,38 +46,12 @@ namespace WorldleGameEngine
         {
             if (string.IsNullOrEmpty(guess) || guess.Length != WORDLE_LENGTH || guess.Any(char.IsDigit))
             {
-                string errorMessage = string.Empty;
-
-                if(string.IsNullOrEmpty(guess))
-                {
-                    errorMessage = "No guess entered";
-                }
-                else if(guess.Length != WORDLE_LENGTH)
-                {
-                    errorMessage = $"The guess entered has not got enough letters.  Guess should have {WORDLE_LENGTH} letters";
-                }
-                else
-                {
-                    errorMessage = "The guess entered is invalid as it contains numbers";
-                }
-                
-                return new GameState()
-                {
-                    IsGameComplete = false,
-                    HasPlayerWonGame = false,
-                    NumberOfGuesses = numberOfGuesses,
-                    GuessResult = new GuessResult()
-                    {
-                        IsGuessSuccessful = false,
-                        IncorrectGuessHints = null,
-                        ResultMessage = errorMessage,
-                    },
-                };
+                return GetInvalidGuessEntry(guess);
             }
 
             string guessResult = string.Empty;
             IncorrectGuessHints? incorrectGuessHints = null;
-            
+
             string guessInLowerCase = guess.ToLower();
 
             numberOfGuesses++;
@@ -77,7 +68,7 @@ namespace WorldleGameEngine
                 }
                 else
                 {
-                    incorrectGuessHints = GetIncorrectGuessHints(guessInLowerCase, wordle);
+                    incorrectGuessHints = ManageIncorrectGuessHints(guessInLowerCase, wordle);
                 }
             }
 
@@ -99,11 +90,11 @@ namespace WorldleGameEngine
         {
             string es = numberOfGuesses > 1 ? "es" : string.Empty;
 
-            var positionsInGuess = new List<int>();
+            var letterPositionsInGuess = new List<int>();
 
-            for(int i = 0; i < WORDLE_LENGTH; i++)
+            for (int i = 0; i < WORDLE_LENGTH; i++)
             {
-                positionsInGuess.Add(i);
+                letterPositionsInGuess.Add(i);
             }
 
             return new GameState()
@@ -113,12 +104,8 @@ namespace WorldleGameEngine
                 NumberOfGuesses = numberOfGuesses,
                 GuessResult = new GuessResult()
                 {
-                    IsGuessSuccessful = false,
-                    IncorrectGuessHints = new IncorrectGuessHints()
-                    {
-                        LettersPresentInGuessAndInCorrectPosition = guess.ToCharArray().ToList(),
-                        LetterPositionsPresentInGuessAndInCorrectPosition = positionsInGuess,
-                    },
+                    IsGuessSuccessful = true,
+                    IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
                     ResultMessage = $"Congratulations you correctly guessed the selected wordle { wordle } in { numberOfGuesses} guess{ es}",
                 },
             };
@@ -134,10 +121,18 @@ namespace WorldleGameEngine
                 GuessResult = new GuessResult()
                 {
                     IsGuessSuccessful = false,
-                    IncorrectGuessHints = GetIncorrectGuessHints(guess, wordle),
+                    IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
                     ResultMessage = $"Unlucky you didn't guess the selected wordle {wordle}",
                 },
             };
+        }
+
+        private IncorrectGuessHints ManageIncorrectGuessHints(string guess, string worldle)
+        {
+            var incorrectGuessHints = GetIncorrectGuessHints(guess, wordle);
+            ApplyIncorrectGuessHints(incorrectGuessHints);
+
+            return incorrectGuessHints;
         }
 
         private IncorrectGuessHints GetIncorrectGuessHints(string guess, string worldle)
@@ -186,11 +181,6 @@ namespace WorldleGameEngine
             };
         }
 
-        public int GetNumberOfGuesses()
-        {
-            return numberOfGuesses;
-        }
-
         private void GetSelectedWordle()
         {
             var possibleWordles = GetPossibleWordles();
@@ -212,51 +202,78 @@ namespace WorldleGameEngine
             //                            GetSection("PosssibleWordles")
             //                            .Get<List<string>>();
 
-            var possibleWordlesInput = new List<string>()
-            {
-                "point",
-                "weary",
-                "bless",
-                "start",
-                "curry",
-                "pores",
-                "polar",
-                "never",
-                "newer",
-                "magic",
-                "farce",
-                "blank",
-                "force",
-                "watch",
-                "match",
-                "fuzzy",
-                "agent",
-                "prick",
-                "chair",
-                "child",
-                "adult",
-                "cycle",
-                "fight",
-                "issue",
-                "knife",
-                "money",
-                "model",
-                "motor",
-                "pilot",
-                "pound",
-                "shape",
-                "total",
-                "white",
-                "woman",
-                "youth"
-            };
+            return _possibleWordles
+                        .GroupBy(x => x)
+                        .Select(x => x.Key)
+                        .ToList()
+                        .OrderBy(x => x)
+                        .ToList();
+        }
 
-            return possibleWordlesInput
-                                    .GroupBy(x => x)
-                                    .Select(x => x.Key)
-                                    .ToList()
-                                    .OrderBy(x => x)
-                                    .ToList();
+        private void ApplyIncorrectGuessHints( IncorrectGuessHints incorrectGuessHints)
+        {
+            if (incorrectGuessHints != null)
+            {
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                    gameGrid.IncorrectGuessHintColours
+                                                    , incorrectGuessHints.LetterPositionsPresentInGuessAndInCorrectPosition
+                                                    , "background-color: #0080009c;");
+
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                        gameGrid.IncorrectGuessHintColours
+                                                        , incorrectGuessHints.LetterPositionsPresentInGuessButNotInCorrectPosition
+                                                        , "background-color: yellow;");
+
+                gameGrid.IncorrectGuessHintColours = ApplyIncorrectGuessHintColours(
+                                                        gameGrid.IncorrectGuessHintColours
+                                                        , incorrectGuessHints.LetterPositionsNotPresentInGuess
+                                                        , "background-color: #80808078;");
+            }
+        }
+
+        private string[,] ApplyIncorrectGuessHintColours(string[,] incorrectGuessHintColours, List<int> letterPositions, string backgroundColour)
+        {
+            if (letterPositions.Count > 0)
+            {
+                foreach (int letterPosition in letterPositions)
+                {
+                    incorrectGuessHintColours[GetNumberOfGuesses() - 1, letterPosition] = backgroundColour;
+                }
+            }
+
+            return incorrectGuessHintColours;
+        }
+
+        private GameState GetInvalidGuessEntry(string guess)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrEmpty(guess))
+            {
+                errors.Add("No guess entered");
+            }
+            else if (guess.Length != WORDLE_LENGTH)
+            {
+                errors.Add($"The guess entered has not got enough letters.  Guess should have {WORDLE_LENGTH} letters");
+            }
+
+            if(guess.Any(char.IsDigit))
+            {
+                errors.Add("The guess entered is invalid as it contains numbers");
+            }
+
+            return new GameState()
+            {
+                IsGameComplete = false,
+                HasPlayerWonGame = false,
+                NumberOfGuesses = numberOfGuesses,
+                GuessResult = new GuessResult()
+                {
+                    IsGuessSuccessful = false,
+                    IncorrectGuessHints = null,
+                    ErrorMessages = errors,
+                },
+            };
         }
     }
 }

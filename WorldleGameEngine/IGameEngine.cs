@@ -1,4 +1,4 @@
-﻿using Shared;
+﻿using WordleBlazorApp.Shared;
 
 namespace WorldleGameEngine
 {
@@ -7,5 +7,6 @@ namespace WorldleGameEngine
         GameState NewGame();
         GameState EnterGuess(string guess);
         int GetNumberOfGuesses();
+        GameGrid GetGameGrid();
     }
 }

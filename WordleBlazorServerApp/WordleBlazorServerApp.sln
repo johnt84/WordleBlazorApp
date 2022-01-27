@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleBlazorServerApp", "WordleBlazorServerApp\WordleBlazorServerApp.csproj", "{13B213CC-E25A-450B-94E9-16E8B32AF03C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordleBlazorServerApp", "WordleBlazorServerApp\WordleBlazorServerApp.csproj", "{13B213CC-E25A-450B-94E9-16E8B32AF03C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\Shared\Shared.csproj", "{E37ADACB-481E-492C-9122-84FF0B40C735}"
 EndProject

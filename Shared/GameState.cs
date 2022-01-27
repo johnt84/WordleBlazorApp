@@ -1,4 +1,4 @@
-﻿namespace Shared
+﻿namespace WordleBlazorApp.Shared
 {
     public class GameState
     {
