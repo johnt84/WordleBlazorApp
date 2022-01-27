@@ -6,5 +6,5 @@ Simple open source clone of the popular Wordle game developed to demo how the wo
 
 * Front end is developed using both flavours of Blazor
     * Blazor WASM/.Net 6 (Is what is currently deployed)
-    * Blazor Server/.Net 6 (Is what is currently deployed)
+    * Blazor Server/.Net 6
 * Game engine is a Class Library project developed using .Net 6
