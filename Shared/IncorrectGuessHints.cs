@@ -1,4 +1,4 @@
-﻿namespace WordleBlazorServerApp.Shared
+﻿namespace WordleBlazorApp.Shared
 {
     public class IncorrectGuessHints
     {

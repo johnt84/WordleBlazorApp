@@ -1,4 +1,4 @@
-﻿using WordleBlazorServerApp.Shared;
+﻿using WordleBlazorApp.Shared;
 
 namespace WorldleGameEngine
 {
