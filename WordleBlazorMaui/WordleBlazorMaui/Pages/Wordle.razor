@@ -1,0 +1,93 @@
+﻿@page "/wordle"
+
+@inject IGameEngine gameEngine;
+
+<h1>Play Wordle</h1>
+
+<table class="game-grid">
+    @for(int guessIndex = 0; guessIndex < GameEngine.NUMBER_OF_ALLLOWED_GUESSES; guessIndex++)
+    {
+        <tr>
+            @for(int letterIndex = 0; letterIndex < GameEngine.WORDLE_LENGTH; letterIndex++)
+            {
+                int rowIndex = guessIndex;
+                int colIndex = letterIndex;
+
+                <td>
+                    @if(!IsGameComplete && guessIndex == gameEngine.GetNumberOfGuesses())
+                    {
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text" class="guess_letter_entry" style="@GetPlayerColour(rowIndex, colIndex)"  />
+                    }
+                    else
+                    {
+                        <input id="@GetTextBoxID(rowIndex, colIndex)" @bind-value="@gameGrid.Guesses[rowIndex, colIndex]" MaxLength="1" type="text" disabled class="guess_letter_entry" style="@GetPlayerColour(rowIndex, colIndex)" /> 
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+<table class="game-results">
+    <tr>
+        <td class="enter_guess_column">
+            @if(!IsGameComplete)
+            {
+                <button class="btn" type="button" @onclick="EnterGuess">Enter</button>
+            }
+            else
+            {
+                <button disabled class="btn" type="button" @onclick="EnterGuess">Enter</button>
+            }
+        </td>
+        <td>
+            <button class="btn" type="button" @onclick="NewGame">New Game</button>
+        </td>
+    </tr>
+</table>
+
+@if (gameState != null && gameState.GuessResult != null)
+{
+    <span class="game_result_message">@gameState.GuessResult.ResultMessage</span>
+}
+
+<ErrorMessage ErrorMessages="errorMessages" />
+
+@code {
+    private GameState gameState = new GameState();
+    private GameGrid gameGrid = new GameGrid();
+
+    private List<string> errorMessages;
+
+    private string GetPlayerColour(int rowIndex, int colIndex) => gameGrid.IncorrectGuessHintColours[rowIndex, colIndex];
+    private bool IsGameComplete => gameState != null && gameState.IsGameComplete;
+    private string GetTextBoxID(int rowIndex, int colIndex) => $"{rowIndex},{colIndex}";
+    private string GetGuessLetter(int rowIndex, int colIndex) => gameGrid.Guesses[rowIndex, colIndex];
+
+    protected override void OnInitialized()
+    {
+        NewGame();
+    }
+
+    private void EnterGuess()
+    {
+        string currentGuess = string.Empty;
+
+        for(int colIndex=0; colIndex < GameEngine.WORDLE_LENGTH;  colIndex++)
+        {
+            currentGuess += gameGrid.Guesses[gameEngine.GetNumberOfGuesses(), colIndex];
+        }
+
+        gameState = gameEngine.EnterGuess(currentGuess);
+
+        errorMessages = gameState?.GuessResult?.ErrorMessages;
+
+        gameGrid = gameEngine.GetGameGrid();
+    }
+
+    private void NewGame()
+    {
+        gameState = gameEngine.NewGame();
+        gameGrid = gameEngine.GetGameGrid();
+    }
+}

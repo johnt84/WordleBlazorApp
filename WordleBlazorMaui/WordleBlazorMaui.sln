@@ -1,0 +1,38 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31611.283
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordleBlazorMaui", "WordleBlazorMaui\WordleBlazorMaui.csproj", "{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\Shared\Shared.csproj", "{F3BC9C21-554D-4E5D-B5E4-721A3089FA46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldleGameEngine", "..\WorldleGameEngine\WorldleGameEngine.csproj", "{8462C78E-D46D-49C6-8484-4B24D58C458B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F3D64E1-C996-4BDA-86D1-C777645BAFA1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F3BC9C21-554D-4E5D-B5E4-721A3089FA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3BC9C21-554D-4E5D-B5E4-721A3089FA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3BC9C21-554D-4E5D-B5E4-721A3089FA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3BC9C21-554D-4E5D-B5E4-721A3089FA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8462C78E-D46D-49C6-8484-4B24D58C458B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8462C78E-D46D-49C6-8484-4B24D58C458B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8462C78E-D46D-49C6-8484-4B24D58C458B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8462C78E-D46D-49C6-8484-4B24D58C458B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
