@@ -1,6 +1,6 @@
 ﻿using WordleBlazorApp.Shared;
 
-namespace WorldleGameEngine
+namespace WorldleGameEngine.Interfaces
 {
     public interface IGameEngine
     {

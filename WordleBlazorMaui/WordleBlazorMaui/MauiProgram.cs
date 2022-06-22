@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using WorldleGameEngine;
+using WorldleGameEngine.Interfaces;
 
 namespace WordleBlazorMaui;
 
@@ -31,6 +32,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton(possibleWordles);
+        builder.Services.AddSingleton<IWordleGenerator, WordleGenerator>();
         builder.Services.AddSingleton<IGameEngine, GameEngine>();
 
         return builder.Build();
