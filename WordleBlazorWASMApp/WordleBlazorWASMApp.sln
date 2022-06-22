@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldleGameEngine", "..\Wor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\Shared\Shared.csproj", "{15C0974B-0F07-4660-BF75-3A9073A8D0FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleUnitTests", "..\WorldGameEngineUnitTests\WordleUnitTests.csproj", "{F2C24905-4E25-4573-8BF1-73D7C8435DD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleUnitTests", "..\WorldleGameEngineUnitTests\WordleUnitTests.csproj", "{F2C24905-4E25-4573-8BF1-73D7C8435DD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
