@@ -1,4 +1,5 @@
 ﻿using WordleBlazorApp.Shared;
+using WorldleGameEngine.Interfaces;
 
 namespace WorldleGameEngine
 {
@@ -11,19 +12,19 @@ namespace WorldleGameEngine
 
         private string wordle = string.Empty;
 
-        private readonly List<string> _possibleWordles;
+        private readonly IWordleGenerator _wordleGenerator;
 
         public int GetNumberOfGuesses() => numberOfGuesses;
         public GameGrid GetGameGrid() => gameGrid;
 
-        public GameEngine(List<string> possibleWordles)
+        public GameEngine(IWordleGenerator wordleGenerator)
         {
-            _possibleWordles = possibleWordles;
+            _wordleGenerator = wordleGenerator;
         }
 
         public GameState NewGame()
         {
-            GetSelectedWordle();
+            wordle = _wordleGenerator.GenerateSelectedWordle();
 
             numberOfGuesses = 0;
 
@@ -106,7 +107,7 @@ namespace WorldleGameEngine
                 {
                     IsGuessSuccessful = true,
                     IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
-                    ResultMessage = $"Congratulations you correctly guessed the selected wordle { wordle } in { numberOfGuesses} guess{ es}",
+                    ResultMessage = $"Congratulations you correctly guessed the selected wordle of { wordle } in { numberOfGuesses} guess{ es}",
                 },
             };
         }
@@ -122,7 +123,7 @@ namespace WorldleGameEngine
                 {
                     IsGuessSuccessful = false,
                     IncorrectGuessHints = ManageIncorrectGuessHints(guess, wordle),
-                    ResultMessage = $"Unlucky you didn't guess the selected wordle {wordle}",
+                    ResultMessage = $"Unlucky you didn't guess the selected wordle of {wordle}",
                 },
             };
         }
@@ -179,35 +180,6 @@ namespace WorldleGameEngine
                 LetterPositionsPresentInGuessButNotInCorrectPosition = letterPositionsPresentButNotInCorrectPosition,
                 LetterPositionsNotPresentInGuess = letterPositionsNotPresentInGuess,
             };
-        }
-
-        private void GetSelectedWordle()
-        {
-            var possibleWordles = GetPossibleWordles();
-
-            var random = new Random();
-            int wordlePostion = random.Next(0, possibleWordles.Count);
-
-            wordle = possibleWordles[wordlePostion];
-        }
-
-        private List<string> GetPossibleWordles()
-        {
-            //IConfigurationRoot config = new ConfigurationBuilder()
-            //        .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName)
-            //        .AddJsonFile("appSettings.json")
-            //        .Build();
-
-            //var possibleWordlesInput = config.
-            //                            GetSection("PosssibleWordles")
-            //                            .Get<List<string>>();
-
-            return _possibleWordles
-                        .GroupBy(x => x)
-                        .Select(x => x.Key)
-                        .ToList()
-                        .OrderBy(x => x)
-                        .ToList();
         }
 
         private void ApplyIncorrectGuessHints( IncorrectGuessHints incorrectGuessHints)

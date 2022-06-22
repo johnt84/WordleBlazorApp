@@ -1,6 +1,15 @@
 ﻿using WorldleGameEngine;
 
-var gameEngine = new GameEngine();
+var possibleWordles = new List<string>()
+{
+    "tests",
+    "weary",
+    "pulls",
+};
+
+var wordleGenerator = new WordleGenerator(possibleWordles);
+
+var gameEngine = new GameEngine(wordleGenerator);
 
 bool keepPlaying = true;
 
