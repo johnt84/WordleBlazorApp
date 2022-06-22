@@ -9,3 +9,4 @@ Simple open source clone of the popular Wordle game developed to demo how the wo
     * Blazor Server/.Net 6
     * Blazor MAUI/.Net 6
 * Game engine is a Class Library project developed using .Net 6
+* Unit Test app which unit tests the Wordle Game engine. Uses MS Test/.Net 6 and AutoMoq
