@@ -1,5 +1,5 @@
-using WorldleGameEngine;
-using WorldleGameEngine.Interfaces;
+using WordleGameEngine;
+using WordleGameEngine.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

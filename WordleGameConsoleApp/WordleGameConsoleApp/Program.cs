@@ -1,4 +1,4 @@
-﻿using WorldleGameEngine;
+﻿using WordleGameEngine;
 
 var possibleWordles = new List<string>()
 {

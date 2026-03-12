@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
-using WorldleGameEngine;
-using WorldleGameEngine.Interfaces;
+using WordleGameEngine;
+using WordleGameEngine.Interfaces;
 
 namespace WordleBlazorMaui;
 

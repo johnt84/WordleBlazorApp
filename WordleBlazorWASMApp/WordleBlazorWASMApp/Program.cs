@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WordleBlazorWASMApp;
-using WorldleGameEngine;
-using WorldleGameEngine.Interfaces;
+using WordleGameEngine;
+using WordleGameEngine.Interfaces;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
