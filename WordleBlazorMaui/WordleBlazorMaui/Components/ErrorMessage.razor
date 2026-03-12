@@ -1,5 +1,5 @@
 ﻿<div class="error_messages">
-    @if (ErrorMessages?.Count > 0)
+    @if (ErrorMessages is not null && ErrorMessages.Count > 0)
     {
         <ul>
             @foreach (var errorMessage in ErrorMessages)
@@ -12,5 +12,5 @@
 
 @code {
     [Parameter]
-    public List<string> ErrorMessages { get; set; }
+    public List<string>? ErrorMessages { get; set; } = null!;
 }

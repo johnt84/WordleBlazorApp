@@ -3,12 +3,9 @@ using WordleGameEngine.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var possibleWordles = builder.Configuration.GetSection("PossibleWordles").Get<List<string>>();
-
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddSingleton(possibleWordles);
 builder.Services.AddSingleton<IWordleGenerator, WordleGenerator>();
 builder.Services.AddSingleton<IGameEngine, GameEngine>();
 

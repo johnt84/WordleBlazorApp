@@ -2,5 +2,5 @@
 
 public interface IWordleGenerator
 {
-    string GenerateSelectedWordle();
+    string? GenerateSelectedWordle();
 }

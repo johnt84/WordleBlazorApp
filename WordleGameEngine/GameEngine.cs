@@ -10,7 +10,7 @@ public class GameEngine : IGameEngine
     private int numberOfGuesses = 0;
     private GameGrid gameGrid = new GameGrid();
 
-    private string wordle = string.Empty;
+    private string? wordle = null;
 
     private readonly IWordleGenerator _wordleGenerator;
 
@@ -25,6 +25,11 @@ public class GameEngine : IGameEngine
     public GameState NewGame()
     {
         wordle = _wordleGenerator.GenerateSelectedWordle();
+
+        if (wordle is null)
+        {
+            throw new Exception("Unable to generate a wordle for the game");
+        }
 
         numberOfGuesses = 0;
 

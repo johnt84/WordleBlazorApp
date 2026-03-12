@@ -1,18 +1,22 @@
-﻿using WordleGameEngine.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using WordleGameEngine.Interfaces;
 
 namespace WordleGameEngine;
 
 public class WordleGenerator : IWordleGenerator
 {
-    private readonly List<string> _possibleWordles;
+    private readonly List<string>? _possibleWordles = null;
 
-    public WordleGenerator(List<string> possibleWordles)
+    public WordleGenerator(IConfiguration configuration)
     {
-        _possibleWordles = possibleWordles;
+        _possibleWordles = configuration.GetSection("PossibleWordles").Get<List<string>>();
     }
 
-    public string GenerateSelectedWordle()
+    public string? GenerateSelectedWordle()
     {
+        if (_possibleWordles is null)
+            return null;
+        
         var possibleWordles = GetPossibleWordles();
 
         var random = new Random();
@@ -23,7 +27,7 @@ public class WordleGenerator : IWordleGenerator
 
     private List<string> GetPossibleWordles()
     {
-        return _possibleWordles
+        return _possibleWordles!
                     .GroupBy(x => x)
                     .Select(x => x.Key.ToLower())
                     .ToList()
