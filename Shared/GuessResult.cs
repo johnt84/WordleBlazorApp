@@ -1,10 +1,9 @@
-﻿namespace WordleBlazorApp.Shared
+﻿namespace WordleBlazorApp.Shared;
+
+public class GuessResult
 {
-    public class GuessResult
-    {
-        public bool IsGuessSuccessful { get; set; }
-        public string ResultMessage { get; set; } = string.Empty;
-        public List<string> ErrorMessages { get; set; }
-        public IncorrectGuessHints? IncorrectGuessHints { get; set; }
-    }
+    public bool IsGuessSuccessful { get; set; }
+    public string ResultMessage { get; set; } = string.Empty;
+    public List<string> ErrorMessages { get; set; } = null!;
+    public IncorrectGuessHints? IncorrectGuessHints { get; set; }
 }

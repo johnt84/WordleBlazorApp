@@ -1,14 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3967e5ca-f9d5-4035-ace2-5437c235c09f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
-    <ProjectReference Include="..\..\WorldleGameEngine\WorldleGameEngine.csproj" />
+    <ProjectReference Include="..\..\WordleGameEngine\WordleGameEngine.csproj" />
   </ItemGroup>
 
 </Project>

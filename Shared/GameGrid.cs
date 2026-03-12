@@ -1,8 +1,7 @@
-﻿namespace WordleBlazorApp.Shared
+﻿namespace WordleBlazorApp.Shared;
+
+public class GameGrid
 {
-    public class GameGrid
-    {
-        public string[,] Guesses { get; set; }
-        public string[,] IncorrectGuessHintColours { get; set; }
-    }
+    public string[,] Guesses { get; set; } = null!;
+    public string[,] IncorrectGuessHintColours { get; set; } = null!;
 }

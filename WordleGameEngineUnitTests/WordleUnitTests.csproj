@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
-    <ProjectReference Include="..\WorldleGameEngine\WorldleGameEngine.csproj" />
+    <ProjectReference Include="..\WordleGameEngine\WordleGameEngine.csproj" />
   </ItemGroup>
 
 </Project>
