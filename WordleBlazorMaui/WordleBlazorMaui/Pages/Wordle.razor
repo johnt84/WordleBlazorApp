@@ -57,7 +57,7 @@
     private GameState gameState = new GameState();
     private GameGrid gameGrid = new GameGrid();
 
-    private List<string> errorMessages;
+    private List<string>? errorMessages = null;
 
     private string GetPlayerColour(int rowIndex, int colIndex) => gameGrid.IncorrectGuessHintColours[rowIndex, colIndex];
     private bool IsGameComplete => gameState != null && gameState.IsGameComplete;
@@ -80,7 +80,7 @@
 
         gameState = gameEngine.EnterGuess(currentGuess);
 
-        errorMessages = gameState?.GuessResult?.ErrorMessages;
+        errorMessages = gameState?.GuessResult?.ErrorMessages ?? new List<string>();
 
         gameGrid = gameEngine.GetGameGrid();
     }

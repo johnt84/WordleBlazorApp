@@ -1,13 +1,11 @@
-﻿using WordleGameEngine;
+﻿using Microsoft.Extensions.Configuration;
+using WordleGameEngine;
 
-var possibleWordles = new List<string>()
-{
-    "tests",
-    "weary",
-    "pulls",
-};
+IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
 
-var wordleGenerator = new WordleGenerator(possibleWordles);
+var wordleGenerator = new WordleGenerator(config);
 
 var gameEngine = new GameEngine(wordleGenerator);
 

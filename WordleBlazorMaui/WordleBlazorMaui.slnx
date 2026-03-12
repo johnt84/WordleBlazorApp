@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../Shared/Shared.csproj" />
+  <Project Path="../WordleGameEngine/WordleGameEngine.csproj" />
+  <Project Path="WordleBlazorMaui/WordleBlazorMaui.csproj">
+    <Deploy />
+  </Project>
+</Solution>
